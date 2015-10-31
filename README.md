@@ -10,12 +10,21 @@ The name of a glib file is always 22 bytes long and null-terminated until its en
 The header stores the amount of files inside the archive. It also contains a file named "GLIB FILE" and its end is the end of the header.
 
 First 4 bytes: Number of files
+
 Next 22 bytes: "GLIB FILE" string 
+
 Next 2 bytes: End of "GLIB FILE" (end of GLIB Header)
 
 ###Body:###
 The body follows immediately after the header and consists of concatenated file entries.
-*GLIB File:*
+
+**GLIB File:**
+
    FileName: char[22]
+   
    Size: short
+   
    EndOfFile: int
+
+###Usage:###
+Simply drag the archive onto the executable to extract all contained files
