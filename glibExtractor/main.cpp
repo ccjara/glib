@@ -5,7 +5,7 @@
 int main(int argc, char *argv[]) {
     unsigned int numberOfFiles = 0;
     unsigned int headerSize = 0;
-    std::string archive = "C:\\dos\\gx\\FILE0002.GLB";
+    std::string archive;
 
     if (argc != 2) {
         std::cout << "Usage: Drag the GLIB file to extract onto the GLIB Extractor." << std::endl;
@@ -13,6 +13,7 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
+    archive = argv[1];
     std::ifstream inputStream(archive, std::ios::binary);
 
     if (!inputStream) {
