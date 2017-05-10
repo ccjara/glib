@@ -2,7 +2,7 @@
 
 A small tool to extract all files from a GLIB file archive which was used to store the assets of the game GALACTIX (MS-DOS)
 
-## GLIB file specification#
+## GLIB file specification
 The files inside the GLIB file are not encrypted or compressed.
 The name of a file stored inside a GLIB file record always takes 22 bytes and is zero-padded until its end. A file cannot be larger than 2^16-1 bytes because the filesize is stored in 2 bytes. No file inside the archives was bigger than 64000 bytes.
 
