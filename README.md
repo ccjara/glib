@@ -35,5 +35,5 @@ struct GLIB_Record
 
 Note: The "GLIB FILE" from the header is probably a GLIB_Record itself, with the first field being the file count instead of the binary offset and its file size being zero (since it acts as a dummy file). One could argue what is the header and what is the body here. One could even say, the header is only the first 4 bytes. Either way the extraction algorithm stays the same.
 
-### Usage:
+## Usage:
 Simply drag the archive onto the executable to extract all contained files.
