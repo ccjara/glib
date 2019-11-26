@@ -1,2 +1,2 @@
-*.sdf
-*.opensdf
+cmake-build-debug
+.idea
