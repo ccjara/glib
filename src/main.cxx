@@ -1,10 +1,12 @@
-#include <fstream>
+// #include <fstream>
 #include <iostream>
-#include <string>
+// #include <string>
 // #include <filesystem>
-#include "glib.hxx"
 
 int main(int argc, char *argv[]) {
+    std::cout << "Work in progress\n";
+    return 0;
+    /*
     if (argc != 2) {
         std::cout << "Usage: glibex <path_to_glib_file>\n";
         return 0;
@@ -31,7 +33,7 @@ int main(int argc, char *argv[]) {
     for (uint32_t i { 0 }; i < header.record_count; i++) {
         // OPTIMIZE: does not read glib archive sequentially but jumps
         // around which could get problematic on big file archives
-        glib_record record;
+        glib_file_header record;
         input_stream.read(reinterpret_cast<char *> (&record), sizeof(record));
 
         if (record.size == 0) {
@@ -46,7 +48,6 @@ int main(int argc, char *argv[]) {
         }
         std::cout << record.label << " (" << record.size << " bytes)\n";
 
-        /*
         if (!std::filesystem::exists(dir)) {
             if (!std::filesystem::create_directory(dir)) {
                 std::cout
@@ -55,7 +56,6 @@ int main(int argc, char *argv[]) {
                     << " to extract the files in\n";
             }
         }
-        */
 
         std::ofstream output_stream(dir + "\\" + record.label, std::ios::binary);
         // jump to first byte of glib record
@@ -71,4 +71,5 @@ int main(int argc, char *argv[]) {
     }
     std::cout << "Done.\n";
     return 0;
+    */
 }

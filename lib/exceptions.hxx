@@ -1,5 +1,5 @@
-#ifndef GLIBEX_EXCEPTIONS_HXX
-#define GLIBEX_EXCEPTIONS_HXX
+#ifndef GLIB_EXCEPTIONS_HXX
+#define GLIB_EXCEPTIONS_HXX
 
 #include <exception>
 
