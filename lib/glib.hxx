@@ -8,7 +8,7 @@
 #include "glib_file.hxx"
 #include "exceptions.hxx"
 
-constexpr auto expected_record_size { 28 };
+constexpr auto EXPECTED_RECORD_SIZE { 28U };
 
 struct glib_file_header {
     uint32_t offset; // absolute byte offset of the raw data
@@ -28,7 +28,7 @@ private:
 };
 
 static_assert(sizeof(glib_archive_header) == sizeof(glib_file_header));
-static_assert(sizeof(glib_file_header) == expected_record_size);
+static_assert(sizeof(glib_file_header) == EXPECTED_RECORD_SIZE);
 
 class glib {
 private:
@@ -47,7 +47,7 @@ public:
 
 template<class rec_t>
 rec_t glib::read_record(std::istream& input) {
-    static_assert(sizeof(rec_t) == expected_record_size);
+    static_assert(sizeof(rec_t) == EXPECTED_RECORD_SIZE);
 
     if (input.bad()) {
         throw bad_stream_exception();
