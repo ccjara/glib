@@ -16,12 +16,14 @@ private:
 protected:
     inline glib_archive_header read_archive_header(std::istream& input);
     inline glib_file_header read_file_header(std::istream& input);
+    inline std::vector<glib_file> read_files(std::istream& input, bool bare);
 
     [[nodiscard]] inline std::istream::off_type calculate_data_offset(
         const glib_archive_header& header
     ) const noexcept;
 public:
     std::vector<glib_file> list(std::istream& input);
+    std::vector<glib_file> extract(std::istream& input);
 };
 
 template<class rec_t>
