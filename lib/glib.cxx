@@ -9,7 +9,7 @@ std::vector<glib_file> glib::list(std::istream& input) {
     }
     // TODO: rewrite loop to iterator
     const auto data_offset { calculate_data_offset(archive_header) };
-    while(input.tellg() <= data_offset) {
+    while(!input.eof() && input.tellg() <= data_offset) {
         glib_file file(read_file_header(input).label);
         container.emplace_back(std::move(file));
     }
