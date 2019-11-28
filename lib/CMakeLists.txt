@@ -1,5 +1,6 @@
 add_library(glib_static STATIC
     glib.cxx
+    glib_defs.hxx
     glib_file.cxx
     glib_file_validator.cxx
     exceptions.hxx

@@ -5,30 +5,9 @@
 #include <optional>
 #include <vector>
 
+#include "glib_defs.hxx"
 #include "glib_file.hxx"
 #include "exceptions.hxx"
-
-constexpr auto EXPECTED_RECORD_SIZE { 28U };
-
-struct glib_file_header {
-    uint32_t offset; // absolute byte offset of the raw data
-    char label[22]; // zero padded label
-    uint16_t size; // size in bytes
-
-    glib_file_header() : offset(0), label(""), size(0) {}
-};
-
-// glib_archive_header is a re-purposed (abstract) glib_file_header with a
-// 'GLIB_FILE' label and of constant zero size which we are not going to use
-struct glib_archive_header {
-    uint32_t record_count;
-    glib_archive_header() : record_count(0), unused("") {}
-private:
-    char unused[sizeof(glib_file_header::label) + sizeof(glib_file_header::size)];
-};
-
-static_assert(sizeof(glib_archive_header) == sizeof(glib_file_header));
-static_assert(sizeof(glib_file_header) == EXPECTED_RECORD_SIZE);
 
 class glib {
 private:
@@ -47,7 +26,7 @@ public:
 
 template<class rec_t>
 rec_t glib::read_record(std::istream& input) {
-    static_assert(sizeof(rec_t) == EXPECTED_RECORD_SIZE);
+    static_assert(sizeof(rec_t) == EXPECTED_HEADER_SIZE);
 
     if (input.bad()) {
         throw bad_stream_exception();

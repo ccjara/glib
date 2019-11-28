@@ -2,9 +2,7 @@
 #define GLIB_GLIB_FILE_VALIDATOR_HXX
 
 #include "glib_file.hxx"
-
-constexpr auto MAX_RECORD_SIZE { 64000U };
-constexpr auto MAX_LABEL_LENGTH { 22U };
+#include "glib_defs.hxx"
 
 enum glib_file_validation_result {
     ok,
