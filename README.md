@@ -1,39 +1,27 @@
-# glibExtractor
+# glib
 
-A small tool to extract all files from a GLIB file archive which was used to store the assets of the game GALACTIX (MS-DOS)
+A set of tools to work with glib file archives which were used to store assets
+of the game GALACTIX (MS-DOS) by Cygnus Software Inc.
 
-## GLIB file specification
-The files inside the GLIB file are not encrypted or compressed.
-The name of a file stored inside a GLIB file record always takes 22 bytes and is zero-padded until its end. A file cannot be larger than 2^16-1 bytes because the filesize is stored in 2 bytes. No file inside the archives was bigger than 64000 bytes.
+## Specification
+Files inside a glib archive are not encrypted or compressed. The archive layout
+is a continuous sequence of file headers followed by the data of the
+respective files, in the same order as the headers.
 
-`GLIB Archive = {GLIB_Header} + {GLIB_Record * recordCount} + {BinaryData}`
+The name of a file stored inside a glib file header is fixed to 22 bytes and
+zero-padded until its limit. A file cannot be larger than 2^16-1 bytes as the 
+file size is stored in 2 bytes. No file inside any official archive was bigger
+than 64000 bytes.
 
-### Header:
-```C++
-// sizeof(int) == 4
+See [glib_defs](./lib/glib_defs.hxx) for more information.
 
-struct GLIB_Header
-{
-   int recordCount;
-   char[22] glibFile; // "GLIB FILE" string, zero-padded
-   unsigned short size; // always zero (dummy file)
-}
-// sizeof(GLIB_Header) == 28
-```
-### Body:
-```C++
-struct GLIB_Record
-{
-   int binaryOffset; // global offset of the first byte for this file
-   char[22] filename; // zero-padded
-   unsigned short size; // file size in bytes
-}
-// sizeof (GLIB_Record) == 28
+## Building
 
-// binary data until end of file...
-```
+This project is split into [backend](./lib) (glib implementation), 
+[frontend](./src) (cli) and [tests](./test) (using Catch2).
 
-Note: The "GLIB FILE" from the header is probably a GLIB_Record itself, with the first field being the file count instead of the binary offset and its file size being zero (since it acts as a dummy file). One could argue what is the header and what is the body here. One could even say, the header is only the first 4 bytes. Either way the extraction algorithm stays the same.
+You can use `cmake` to build the project. 
 
-## Usage:
-Simply drag the archive onto the executable to extract all contained files.
+C++17 is required to build this project as it makes use of the 
+`std::filesystem`.
+
