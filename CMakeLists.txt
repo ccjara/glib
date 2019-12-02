@@ -1,8 +1,11 @@
 cmake_minimum_required(VERSION 3.14.1)
 
-project(glib VERSION 0.1.0 DESCRIPTION "glib archive tools")
+project(glib VERSION 0.2.0 DESCRIPTION "glib archive tools")
+
+configure_file(lib/glib_version.hxx.in glib_version.hxx)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED 17)
 
 add_subdirectory(lib)
 add_subdirectory(test)

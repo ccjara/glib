@@ -1,4 +1,8 @@
-add_executable(glib_bin main.cxx ../lib/glib.cxx ../lib/glib.hxx)
+add_executable(
+    glib_bin
+    frontend.hxx
+    main.cxx
+)
 
 target_link_libraries(glib_bin glib_static)
 
