@@ -8,15 +8,22 @@ class glib_file {
 private:
     std::string label;
     std::vector<char> data;
+    std::vector<char>::size_type size;
 public:
     glib_file(std::string&& label, std::vector<char>&& data);
-    explicit glib_file(std::string&& label);
+    explicit glib_file(
+        std::string&& label,
+        std::vector<char>::size_type size = 0
+    );
     glib_file();
 
     void rename(std::string&& l) noexcept;
     void rename(const char *l);
 
     void set_data(std::vector<char>&& d);
+
+    void set_size(std::vector<char>::size_type s) noexcept;
+    [[nodiscard]] std::vector<char>::size_type get_size() const noexcept;
 
     [[nodiscard]] std::string get_label() const noexcept;
     [[nodiscard]] std::vector<char> get_data() const noexcept;

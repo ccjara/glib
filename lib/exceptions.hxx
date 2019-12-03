@@ -5,7 +5,7 @@
 
 class bad_stream_exception : public std::exception {
     [[nodiscard]] const char* what() const noexcept override {
-        return "Bad Stream";
+        return "Bad stream";
     }
 };
 

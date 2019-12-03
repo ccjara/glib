@@ -20,8 +20,7 @@ std::vector<glib_file> glib::read_files(std::istream& input, bool bare) {
     const auto data_offset { calculate_data_offset(archive_header) };
     while(!input.eof() && input.tellg() < data_offset) {
         auto file_header { read_file_header(input) };
-        // TODO: listing files should include their size
-        glib_file file(file_header.label);
+        glib_file file { file_header.label, file_header.size };
         if (!bare) {
             // OPTIMIZE: slower on big archives, but simpler implementation as
             // opposed to reading sequentially (headers and data are adjacent)

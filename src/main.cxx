@@ -30,11 +30,11 @@ int main(int argc, char *argv[]) {
     }
     glib lib;
     if (op == "-l" || op == "--list") {
-        for (const auto& file : lib.extract(input_stream)) {
+        for (const auto& file : lib.list(input_stream)) {
             std::cout
                 << file.get_label()
                 << "\t"
-                << file.get_data().size()
+                << file.get_size()
                 << " bytes\n";
         }
         return 0;
