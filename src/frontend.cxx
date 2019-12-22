@@ -1,20 +1,11 @@
 #include "frontend.hxx"
 
-int frontend::handle(int argc, char* argv[]) {
-    if (argc < 0) {
-        throw std::exception();
-    }
-    args.clear();
-    for (auto i = 0; i < argc; i++) {
-        args.emplace_back(argv[i]);
-    }
-
+int frontend::handle(const arg_provider& args) {
     try {
-        ensure_arg_count(1);
-        const std::string op { args[1] };
+        const auto op { args.get(1) };
 
         if (op == "-l" || op == "--list") {
-            list_files();
+            list_files(args);
         } else if (op == "-v" || op == "--version") {
             print_version();
         } else {
@@ -30,9 +21,8 @@ int frontend::handle(int argc, char* argv[]) {
     }
 }
 
-void frontend::list_files() {
-    ensure_arg_count(2);
-    const std::string archive { args[2] };
+void frontend::list_files(const arg_provider& args) {
+    const auto archive { args.get(2) };
 
     std::ifstream input_stream(archive, std::ios::binary);
     if (!input_stream) { // TODO: fs exists
@@ -61,10 +51,4 @@ void frontend::print_usage() const noexcept {
            "  -h --help\t\t\tprint this screen\n"
            "  -l --list\t\t\tlist files and their size in the archive\n"
            "  -v --version\t\tdisplay the version of the glib library\n";
-}
-
-void frontend::ensure_arg_count(uint32_t expected_argc) const {
-    if (args.size() <= expected_argc) {
-        throw too_few_arguments_exception();
-    }
 }
