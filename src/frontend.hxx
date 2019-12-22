@@ -1,13 +1,29 @@
 #ifndef GLIB_FRONTEND_HXX
 #define GLIB_FRONTEND_HXX
 
-const char *get_usage() {
-    return "glib, a set of tools to work with glib archives\n"
-           "  usage: glib [operation] [path to archive]\n"
-           "  \n"
-           "  -h -? --help\t\tprint this screen\n"
-           "  -l --list\t\tlist files and their size in the archive\n"
-           "  -v --version\t\tdisplay the version of the glib library\n";
-}
+#include <cstdint>
+// #include <filesystem>
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
+
+#include "exceptions.hxx"
+#include "glib.hxx"
+
+class frontend {
+private:
+    glib lib;
+
+    std::vector<std::string> args;
+
+    void list_files();
+    void print_usage() const noexcept;
+    void print_version() const noexcept;
+
+    void ensure_arg_count(uint32_t expected_argc) const;
+public:
+    int handle(int argc, char* argv[]);
+};
 
 #endif
