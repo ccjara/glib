@@ -1,5 +1,6 @@
 add_executable(
     glib_bin
+    arg_provider.hxx
     frontend.cxx
     main.cxx
 )
