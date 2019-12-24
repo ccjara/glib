@@ -33,7 +33,7 @@ std::vector<glib_file> glib::read_files(std::istream& input, bool bare) {
             // jump back to header to read next record
             input.seekg(offset);
         }
-        files.emplace_back(std::move(file));
+        files.push_back(std::move(file));
     }
     return files;
 }
