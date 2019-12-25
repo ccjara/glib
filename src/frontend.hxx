@@ -14,6 +14,9 @@
 
 class frontend {
 private:
+    std::ostream& out;
+    std::ostream& err;
+
     glib lib;
 
     void extract_files(const arg_provider& args);
@@ -21,6 +24,8 @@ private:
     void print_usage() const;
     void print_version() const;
 public:
+    frontend(std::ostream& output_stream, std::ostream& error_stream);
+
     bool handle(const arg_provider& args);
 };
 

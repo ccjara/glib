@@ -1,5 +1,10 @@
 #include "frontend.hxx"
 
+frontend::frontend(std::ostream& output_stream, std::ostream& error_stream) :
+    out(output_stream),
+    err(error_stream) {
+}
+
 bool frontend::handle(const arg_provider& args) {
     try {
         const auto& op { args.get(1) };
@@ -15,13 +20,13 @@ bool frontend::handle(const arg_provider& args) {
         }
         return true;
     } catch (const file_not_found_exception& e) {
-        std::cout << e.file_path << ": no such file or directory\n";
+        err << e.file_path << ": no such file or directory\n";
         return false;
     } catch (const too_few_arguments_exception& e) {
         print_usage();
         return false;
     } catch (const too_many_arguments_exception& e) {
-        std::cout
+        err
             << "Too many arguments. Can only handle up to"
             << e.max_args
             << " arguments (" << e.arg_count << " given).\n";
@@ -46,12 +51,12 @@ void frontend::extract_files(const arg_provider& args) {
     }
 
     for (const auto& file : lib.extract(input_stream)) {
-        std::ofstream output_stream { output_path, std::ios::binary };
-        if (!output_stream) {
+        std::ofstream file_output_stream { output_path, std::ios::binary };
+        if (!file_output_stream) {
             throw bad_stream_exception { };
         }
         const auto& file_buffer { file.get_data() };
-        output_stream.write(file_buffer.data(), file_buffer.size());
+        file_output_stream.write(file_buffer.data(), file_buffer.size());
     }
 }
 
@@ -66,23 +71,19 @@ void frontend::list_files(const arg_provider& args) {
         throw bad_stream_exception { };
     }
     for (const auto& file : lib.list(input_stream)) {
-        std::cout
-            << file.get_label()
-            << "\t"
-            << file.get_size()
-            << " bytes\n";
+        out << file.get_label() << "\t" << file.get_size() << " bytes\n";
     }
 }
 
 void frontend::print_version() const {
-    std::cout
+    out
         << GLIB_VERSION_MAJOR << "."
         << GLIB_VERSION_MINOR << "."
         << GLIB_VERSION_PATCH << "\n";
 }
 
 void frontend::print_usage() const {
-    std::cout << "glib, a set of tools to work with glib archives\n"
+    out << "glib, a set of tools to work with glib archives\n"
            "  usage: glib [operation] [options]\n"
            "  \n"
            "  -h --help\t\t\tprint this screen\n"
