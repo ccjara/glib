@@ -25,8 +25,8 @@ public:
     void set_size(std::vector<char>::size_type s) noexcept;
     [[nodiscard]] std::vector<char>::size_type get_size() const noexcept;
 
-    [[nodiscard]] std::string get_label() const noexcept;
-    [[nodiscard]] std::vector<char> get_data() const noexcept;
+    [[nodiscard]] const std::string& get_label() const noexcept;
+    [[nodiscard]] const std::vector<char>& get_data() const noexcept;
 
     [[nodiscard]] bool has_data() const noexcept;
     [[nodiscard]] bool has_label() const noexcept;

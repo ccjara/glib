@@ -5,7 +5,7 @@ constexpr auto TAG { "arg_provider" };
 
 constexpr auto VALID_ARGV_SIZE { 3U };
 
-constexpr const char* valid_argv[VALID_ARGV_SIZE] {
+constexpr const char* VALID_ARGV[VALID_ARGV_SIZE] {
     "/path/to/bin",
     "-l",
     "/path/to/file"
@@ -13,7 +13,7 @@ constexpr const char* valid_argv[VALID_ARGV_SIZE] {
 
 // use this helper to get the argv factory param to avoid const_cast repetition
 constexpr char** get_valid_argv() {
-    return const_cast<char **> (valid_argv);
+    return const_cast<char **> (VALID_ARGV);
 }
 
 TEST_CASE("from_main", TAG) {
@@ -24,7 +24,7 @@ TEST_CASE("from_main", TAG) {
         );
     }
 
-    SECTION("throws if a negative argc is given", TAG) {
+    SECTION("throws if a negative argc is given") {
         REQUIRE_THROWS_AS(
             arg_provider::from_main(-5, get_valid_argv()),
             corrupted_args_exception
@@ -37,9 +37,9 @@ TEST_CASE("get", TAG) {
         const auto provider {
             arg_provider::from_main(VALID_ARGV_SIZE, get_valid_argv())
         };
-        REQUIRE(provider.get(0) == valid_argv[0]);
-        REQUIRE(provider.get(1) == valid_argv[1]);
-        REQUIRE(provider.get(2) == valid_argv[2]);
+        REQUIRE(provider.get(0) == VALID_ARGV[0]);
+        REQUIRE(provider.get(1) == VALID_ARGV[1]);
+        REQUIRE(provider.get(2) == VALID_ARGV[2]);
     }
     SECTION("throws if the requested parameter is out of bounds") {
         const auto provider {

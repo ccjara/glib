@@ -18,10 +18,10 @@ private:
 
     void extract_files(const arg_provider& args);
     void list_files(const arg_provider& args);
-    void print_usage() const noexcept;
-    void print_version() const noexcept;
+    void print_usage() const;
+    void print_version() const;
 public:
-    bool handle(const arg_provider&& args);
+    bool handle(const arg_provider& args);
 };
 
 #endif

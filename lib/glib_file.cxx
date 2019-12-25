@@ -8,7 +8,7 @@ glib_file::glib_file(std::string&& label, std::vector<char>&& data) :
 }
 
 glib_file::glib_file(
-    std::string &&label,
+    std::string&& label,
     std::vector<char>::size_type size
 ) :
     label(label),
@@ -23,20 +23,20 @@ void glib_file::rename(std::string&& l) noexcept {
     label = l;
 }
 
-void glib_file::rename(const char *l) {
+void glib_file::rename(const char* l) {
     label = l;
 }
 
-void glib_file::set_data(std::vector<char> &&d) {
+void glib_file::set_data(std::vector<char>&& d) {
     data = d;
     size = d.size();
 }
 
-std::string glib_file::get_label() const noexcept {
+const std::string& glib_file::get_label() const noexcept {
     return label;
 }
 
-std::vector<char> glib_file::get_data() const noexcept {
+const std::vector<char>& glib_file::get_data() const noexcept {
     return data;
 }
 

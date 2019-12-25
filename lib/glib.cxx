@@ -26,7 +26,7 @@ std::vector<glib_file> glib::read_files(std::istream& input, bool bare) {
             // opposed to reading sequentially (headers and data are adjacent)
             const auto offset { input.tellg() };
             input.seekg(file_header.offset);
-            // [OPTIMIZE] copy bytes into the output file
+            // OPTIMIZE: copy bytes into the output file
             std::vector<char> buffer(file_header.size);
             input.read(buffer.data(), file_header.size);
             file.set_data(std::move(buffer));
@@ -46,7 +46,7 @@ glib_file_header glib::read_file_header(std::istream& input) {
     return read_record<glib_file_header>(input);
 }
 
-std::istream::off_type glib::calculate_data_offset(
+constexpr std::istream::off_type glib::calculate_data_offset(
     const glib_archive_header& header
 ) const noexcept {
     return

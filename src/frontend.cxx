@@ -1,6 +1,6 @@
 #include "frontend.hxx"
 
-bool frontend::handle(const arg_provider&& args) {
+bool frontend::handle(const arg_provider& args) {
     try {
         const auto& op { args.get(1) };
 
@@ -25,6 +25,7 @@ bool frontend::handle(const arg_provider&& args) {
             << "Too many arguments. Can only handle up to"
             << e.max_args
             << " arguments (" << e.arg_count << " given).\n";
+        return false;
     }
 }
 
@@ -49,7 +50,7 @@ void frontend::extract_files(const arg_provider& args) {
         if (!output_stream) {
             throw bad_stream_exception { };
         }
-        const auto file_buffer { file.get_data() };
+        const auto& file_buffer { file.get_data() };
         output_stream.write(file_buffer.data(), file_buffer.size());
     }
 }
@@ -60,9 +61,9 @@ void frontend::list_files(const arg_provider& args) {
         throw file_not_found_exception { archive };
     }
 
-    std::ifstream input_stream(archive, std::ios::binary);
+    std::ifstream input_stream { archive, std::ios::binary };
     if (!input_stream) {
-        throw file_not_found_exception { archive };
+        throw bad_stream_exception { };
     }
     for (const auto& file : lib.list(input_stream)) {
         std::cout
@@ -73,14 +74,14 @@ void frontend::list_files(const arg_provider& args) {
     }
 }
 
-void frontend::print_version() const noexcept {
+void frontend::print_version() const {
     std::cout
         << GLIB_VERSION_MAJOR << "."
         << GLIB_VERSION_MINOR << "."
         << GLIB_VERSION_PATCH << "\n";
 }
 
-void frontend::print_usage() const noexcept {
+void frontend::print_usage() const {
     std::cout << "glib, a set of tools to work with glib archives\n"
            "  usage: glib [operation] [options]\n"
            "  \n"
