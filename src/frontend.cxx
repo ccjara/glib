@@ -20,6 +20,11 @@ bool frontend::handle(const arg_provider&& args) {
     } catch (const too_few_arguments_exception& e) {
         print_usage();
         return false;
+    } catch (const too_many_arguments_exception& e) {
+        std::cout
+            << "Too many arguments. Can only handle up to"
+            << e.max_args
+            << " arguments (" << e.arg_count << " given).\n";
     }
 }
 
