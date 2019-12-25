@@ -2,6 +2,7 @@ add_executable(
     glib_bin
     arg_provider.hxx
     frontend.cxx
+    frontend_exception.hxx
     main.cxx
 )
 

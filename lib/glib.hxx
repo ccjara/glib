@@ -8,7 +8,7 @@
 #include "glib_defs.hxx"
 #include "glib_file.hxx"
 #include "glib_version.hxx"
-#include "exceptions.hxx"
+#include "glib_exception.hxx"
 
 class glib {
 private:

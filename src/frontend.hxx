@@ -9,8 +9,13 @@
 #include <vector>
 
 #include "arg_provider.hxx"
-#include "exceptions.hxx"
+#include "glib_exception.hxx"
 #include "glib.hxx"
+
+namespace {
+    constexpr auto exit_success { 0U };
+    constexpr auto exit_failure { 1U };
+}
 
 class frontend {
 private:

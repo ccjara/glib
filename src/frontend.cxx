@@ -2,7 +2,7 @@
 
 int frontend::handle(const arg_provider& args) {
     try {
-        const auto op { args.get(1) };
+        const auto& op { args.get(1) };
 
         if (op == "-x" || op == "--extract") {
             extract_files(args);
@@ -13,19 +13,19 @@ int frontend::handle(const arg_provider& args) {
         } else {
             print_usage();
         }
-        return 0;
-    } catch (file_not_found_exception& e) {
-        std::cout << e.what() << '\n';
-        return 1;
-    } catch (too_few_arguments_exception& e) {
+        return exit_success;
+    } catch (const file_not_found_exception& e) {
+        std::cout << e.file_path << ": no such file or directory\n";
+        return exit_failure;
+    } catch (const too_few_arguments_exception& e) {
         print_usage();
-        return 1;
+        return exit_failure;
     }
 }
 
 void frontend::extract_files(const arg_provider& args) {
-    const auto archive { args.get(2) };
-    const auto output_path { args.get(3) };
+    const auto& archive { args.get(2) };
+    const auto& output_path { args.get(3) };
 
     if (!std::filesystem::exists(archive)) {
         throw file_not_found_exception { archive };
@@ -50,7 +50,7 @@ void frontend::extract_files(const arg_provider& args) {
 }
 
 void frontend::list_files(const arg_provider& args) {
-    const auto archive { args.get(2) };
+    const auto& archive { args.get(2) };
     if (!std::filesystem::exists(archive)) {
         throw file_not_found_exception { archive };
     }

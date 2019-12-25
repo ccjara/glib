@@ -1,39 +1,41 @@
 #ifndef GLIB_ARG_PROVIDER_HXX
 #define GLIB_ARG_PROVIDER_HXX
 
-#include <cstdint>
-#include <filesystem>
-#include <fstream>
-#include <iostream>
 #include <string>
 #include <vector>
 
-#include "exceptions.hxx"
+#include "frontend_exception.hxx"
+
+// program argument container which abstracts the low level main argc, argv
+// and integrates with frontend exceptions when doing boundary checking
+
+constexpr size_t MAX_ARGS { 255U };
 
 class arg_provider {
 private:
     std::vector<std::string> args;
 public:
-    arg_provider(int argc, char* argv[]) {
-        if (argc < 0) {
-            throw std::exception();
+    static arg_provider from_main(int argc, char* argv[]) {
+        if (argc < 0 || argv == nullptr) {
+            throw corrupted_args_exception { };
         }
-        clear();
-        for (auto i = 0; i < argc; i++) {
-            args.emplace_back(argv[i]);
+        const auto arg_count { static_cast<size_t> (argc) };
+        if (argc > MAX_ARGS) {
+            throw too_many_arguments_exception { arg_count, MAX_ARGS };
         }
+        arg_provider provider;
+
+        for (auto i = 0; i < arg_count; i++) {
+            provider.args.emplace_back(argv[i]);
+        }
+        return provider;
     }
 
-    [[nodiscard]] std::string get(std::vector<std::string>::size_type index) const {
-        const auto max_index { args.size() - 1 };
-        if (index > max_index) {
-            throw too_few_arguments_exception();
+    [[nodiscard]] const std::string& get(size_t index) const {
+        if (index + 1 > args.size()) {
+            throw too_few_arguments_exception { index, args.size() };
         }
         return args[index];
-    }
-
-    void clear() {
-        args.clear();
     }
 };
 
