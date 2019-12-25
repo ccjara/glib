@@ -1,6 +1,6 @@
 #include "frontend.hxx"
 
-int frontend::handle(const arg_provider& args) {
+bool frontend::handle(const arg_provider&& args) {
     try {
         const auto& op { args.get(1) };
 
@@ -13,13 +13,13 @@ int frontend::handle(const arg_provider& args) {
         } else {
             print_usage();
         }
-        return exit_success;
+        return true;
     } catch (const file_not_found_exception& e) {
         std::cout << e.file_path << ": no such file or directory\n";
-        return exit_failure;
+        return false;
     } catch (const too_few_arguments_exception& e) {
         print_usage();
-        return exit_failure;
+        return false;
     }
 }
 

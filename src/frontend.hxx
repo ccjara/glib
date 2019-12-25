@@ -12,11 +12,6 @@
 #include "glib_exception.hxx"
 #include "glib.hxx"
 
-namespace {
-    constexpr auto exit_success { 0U };
-    constexpr auto exit_failure { 1U };
-}
-
 class frontend {
 private:
     glib lib;
@@ -26,7 +21,7 @@ private:
     void print_usage() const noexcept;
     void print_version() const noexcept;
 public:
-    int handle(const arg_provider& args);
+    bool handle(const arg_provider&& args);
 };
 
 #endif
