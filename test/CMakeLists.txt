@@ -1,6 +1,7 @@
 add_executable(
     glib_test
     arg_provider.test.cxx
+    glib.test.cxx
     glib_file.test.cxx
     glib_file_validator.test.cxx
     main.cxx

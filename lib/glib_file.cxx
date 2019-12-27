@@ -55,3 +55,22 @@ void glib_file::set_size(const std::vector<char>::size_type s) noexcept {
 std::vector<char>::size_type glib_file::get_size() const noexcept {
     return size;
 }
+
+bool glib_file::operator==(const glib_file& file) const {
+    if (file.label != label) {
+        return false;
+    }
+    if (file.size != size) {
+        return false;
+    }
+    const auto& c { file.get_container() };
+    if (c.size() != data_container.size()) {
+        return false;
+    }
+    return std::equal(
+        c.cbegin(),
+        c.cend(),
+        data_container.cbegin(),
+        data_container.cend()
+    );
+}

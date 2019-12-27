@@ -39,6 +39,8 @@ public:
 
     [[nodiscard]] bool has_data() const noexcept;
     [[nodiscard]] bool has_label() const noexcept;
+
+    [[nodiscard]] bool operator==(const glib_file& file) const;
 };
 
 #endif
