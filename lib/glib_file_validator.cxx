@@ -2,7 +2,7 @@
 
 glib_file_validation_result glib_file_validator::validate(
     const glib_file &file
-) const {
+) {
     const auto& data { file.get_data() };
     if (data.empty()) {
         return glib_file_validation_result::no_data;

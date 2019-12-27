@@ -68,11 +68,11 @@ void glib::create(const std::vector<glib_file>& files, std::ostream& output) {
 
     output.write(reinterpret_cast<const char *> (&header), sizeof(header));
 
-    glib_file_validator validator;
-
     for (size_t i { 0U }, data_offset { 0U }; i < file_count; i++) {
+        using v = glib_file_validation_result;
+
         const auto& file { files[i] };
-        if (validator.validate(file) != glib_file_validation_result::ok) {
+        if (glib_file_validator::validate(file) != v::ok) {
             // TODO
             throw invalid_file_exception { };
         }

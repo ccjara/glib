@@ -14,11 +14,9 @@ enum glib_file_validation_result {
 
 class glib_file_validator {
 public:
-    // TODO: static
-    [[nodiscard]] glib_file_validation_result validate(
+    [[nodiscard]] static glib_file_validation_result validate(
         const glib_file& file
-    ) const;
+    );
 };
-
 
 #endif
