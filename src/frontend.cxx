@@ -9,7 +9,7 @@ bool frontend::handle(const arg_provider& args) {
     try {
         const auto& op { args.get(0) };
 
-        if (op == "c" || op == "--create") {
+        if (op == "-c" || op == "--create") {
             create_archive(args);
         } else if (op == "-x" || op == "--extract") {
             extract_files(args);
@@ -32,6 +32,28 @@ bool frontend::handle(const arg_provider& args) {
             << "Too many arguments. Can only handle up to"
             << e.max_args
             << " arguments (" << e.arg_count << " given).\n";
+    } catch (const invalid_file_exception& e) {
+        const auto get_error_string = [&]() -> std::string {
+            switch (e.validation_result) {
+                case glib_file_validation_result::data_too_large:
+                    return
+                        "Too much data ("
+                        + std::to_string(e.file_bare.get_size())
+                        + " bytes). Maximum allowed size is "
+                        + std::to_string(MAX_RECORD_SIZE);
+                case glib_file_validation_result::label_too_long:
+                    return
+                        "File name too long ("
+                        + std::to_string(e.file_bare.get_label().length())
+                        + " characters). Maximum length is "
+                        + std::to_string(FIXED_LABEL_SIZE);
+                case glib_file_validation_result::no_data:
+                    return "No data in file.";
+                default:
+                    return "Unexpected error";
+            }
+        };
+        err << e.file_bare.get_label() << ": " << get_error_string() << "\n";
     }
     return false;
 }
@@ -45,9 +67,9 @@ void frontend::create_archive(const arg_provider& args) {
     }
 
     std::string output_path;
-    std::vector<glib_file> files(arg_size);
+    std::vector<glib_file> files;
 
-    for (auto it { args.cbegin() }; it != args.cend(); it++) {
+    for (auto it { args.cbegin() + 1 }; it != args.cend(); it++) {
         if (*it == "-o" || *it == "--output") {
             if (++it == args.cend()) {
                 break;
@@ -58,25 +80,21 @@ void frontend::create_archive(const arg_provider& args) {
             if (!std::filesystem::exists(file_path)) {
                 throw file_not_found_exception { std::move(file_path) };
             }
+            auto file_name { std::filesystem::path(file_path).filename() };
             const auto size { std::filesystem::file_size(file_path) };
             std::ifstream input { file_path, std::ios::binary };
             if (!input) {
                 throw bad_stream_exception {};
             }
-
             std::vector<char> data_v(size);
             input.read(data_v.data(), size);
-            files.emplace_back(std::move(file_path), std::move(data_v));
+            files.emplace_back(std::move(file_name), std::move(data_v));
         }
     }
 
     if (!output_path.length()) {
         throw output_path_missing_exception { };
     }
-    if (!std::filesystem::is_directory(output_path)) {
-        throw invalid_directory_exception { std::move(output_path) };
-    }
-
     std::ofstream output_stream { output_path, std::ios::binary };
     if (!output_stream) {
         throw directory_not_writable_exception { std::move(output_path) };

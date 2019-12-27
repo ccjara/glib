@@ -72,9 +72,9 @@ void glib::create(const std::vector<glib_file>& files, std::ostream& output) {
         using v = glib_file_validation_result;
 
         const auto& file { files[i] };
-        if (glib_file_validator::validate(file) != v::ok) {
-            // TODO
-            throw invalid_file_exception { };
+        const auto validation_result { glib_file_validator::validate(file) };
+        if (validation_result != v::ok) {
+            throw invalid_file_exception { std::move(file), validation_result };
         }
         const auto& label { file.get_label() };
 

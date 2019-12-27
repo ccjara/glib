@@ -10,11 +10,20 @@ private:
     std::vector<char> data_container;
     std::vector<char>::size_type size;
 public:
+    struct copy_bare_tag {};
+
     glib_file(std::string&& label, std::vector<char>&& data);
     explicit glib_file(
         std::string&& label,
         std::vector<char>::size_type size = 0
     );
+
+
+    glib_file(const glib_file& file, copy_bare_tag) :
+        label(file.label),
+        size(file.size) {
+    }
+
     glib_file();
 
     void rename(std::string&& l) noexcept;
