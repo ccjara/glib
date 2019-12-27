@@ -23,10 +23,8 @@ bool frontend::handle(const arg_provider& args) {
         return true;
     } catch (const file_not_found_exception& e) {
         err << e.file_path << ": no such file or directory\n";
-        return false;
     } catch (const too_few_arguments_exception& e) {
         print_usage();
-        return false;
     } catch (const output_path_missing_exception& e) {
         err << "Argument 'output path' (-o, --output) missing\n";
     } catch (const too_many_arguments_exception& e) {
@@ -34,8 +32,8 @@ bool frontend::handle(const arg_provider& args) {
             << "Too many arguments. Can only handle up to"
             << e.max_args
             << " arguments (" << e.arg_count << " given).\n";
-        return false;
     }
+    return false;
 }
 
 // glib -c in_f1 in_f2 in_f3 -o output_path
