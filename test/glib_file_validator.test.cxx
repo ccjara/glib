@@ -20,7 +20,7 @@ TEST_CASE("returns label_too_long if the label exceeds the max length", TAG) {
     constexpr auto s {
         "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     };
-    static_assert(len(s) > EXPECTED_LABEL_SIZE);
+    static_assert(len(s) > FIXED_LABEL_SIZE);
 
     const glib_file_validator v;
     const glib_file f(s, { 'H', 'E', 'L', 'L', 'O' });

@@ -7,6 +7,7 @@
 
 #include "glib_defs.hxx"
 #include "glib_file.hxx"
+#include "glib_file_validator.hxx"
 #include "glib_version.hxx"
 #include "glib_exception.hxx"
 
@@ -19,9 +20,11 @@ protected:
     inline std::vector<glib_file> read_files(std::istream& input, bool bare);
 
     [[nodiscard]] constexpr std::istream::off_type calculate_data_offset(
-        const glib_archive_header& header
+        const glib_archive_header& header,
+        size_t global_offset = 0
     ) const noexcept;
 public:
+    void create(const std::vector<glib_file>& files, std::ostream& output);
     std::vector<glib_file> list(std::istream& input);
     std::vector<glib_file> extract(std::istream& input);
 };

@@ -6,6 +6,11 @@
 class glib_exception : public std::exception {
 };
 
+// TODO
+class invalid_file_exception : public glib_exception {
+};
+
+
 class bad_stream_exception : public glib_exception {
 public:
     [[nodiscard]] const char* what() const noexcept override {

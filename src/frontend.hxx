@@ -1,6 +1,7 @@
 #ifndef GLIB_FRONTEND_HXX
 #define GLIB_FRONTEND_HXX
 
+#include <algorithm>
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
@@ -19,6 +20,7 @@ private:
 
     glib lib;
 
+    void create_archive(const arg_provider& args);
     void extract_files(const arg_provider& args);
     void list_files(const arg_provider& args);
     void print_usage() const;

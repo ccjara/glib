@@ -12,7 +12,7 @@ glib_file_validation_result glib_file_validator::validate(
     const auto& label { file.get_label() };
     if (label.empty()) {
         return glib_file_validation_result::no_label;
-    } else if (label.length() > EXPECTED_LABEL_SIZE) {
+    } else if (label.length() > FIXED_LABEL_SIZE) {
         return glib_file_validation_result::label_too_long;
     }
     return glib_file_validation_result::ok;

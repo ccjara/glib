@@ -1,3 +1,3 @@
-constexpr auto GLIB_VERSION_MAJOR { @glib_VERSION_MAJOR@ };
-constexpr auto GLIB_VERSION_MINOR { @glib_VERSION_MINOR@ };
-constexpr auto GLIB_VERSION_PATCH { @glib_VERSION_PATCH@ };
+constexpr int GLIB_VERSION_MAJOR { @glib_VERSION_MAJOR@ };
+constexpr int GLIB_VERSION_MINOR { @glib_VERSION_MINOR@ };
+constexpr int GLIB_VERSION_PATCH { @glib_VERSION_PATCH@ };

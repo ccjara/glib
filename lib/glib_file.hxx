@@ -26,6 +26,7 @@ public:
     [[nodiscard]] std::vector<char>::size_type get_size() const noexcept;
 
     [[nodiscard]] const std::string& get_label() const noexcept;
+    // TODO: improve naming (get_data().data() is confusing)
     [[nodiscard]] const std::vector<char>& get_data() const noexcept;
 
     [[nodiscard]] bool has_data() const noexcept;

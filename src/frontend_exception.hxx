@@ -18,6 +18,27 @@ public:
 class corrupted_args_exception : public frontend_exception {
 };
 
+class output_path_missing_exception : public frontend_exception {
+};
+
+class invalid_directory_exception : public frontend_exception {
+public:
+    const std::string directory_path;
+
+    explicit invalid_directory_exception(std::string dir_path) :
+        directory_path(std::move(dir_path)) {
+    }
+};
+
+class directory_not_writable_exception : public frontend_exception {
+public:
+    const std::string directory_path;
+
+    explicit directory_not_writable_exception(std::string dir_path) :
+        directory_path(std::move(dir_path)) {
+    }
+};
+
 class too_few_arguments_exception : public frontend_exception {
 public:
     const size_t arg_number; // requested arg number (not index)

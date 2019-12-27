@@ -1,17 +1,17 @@
 #include "glib_file.hxx"
 
-glib_file::glib_file(std::string&& label, std::vector<char>&& data) :
-    label(label),
-    data(data),
-    size(data.size())
+glib_file::glib_file(std::string&& label, std::vector<char>&& dat) :
+    label(std::move(label)),
+    data(std::move(dat))
     {
+    size = data.size();
 }
 
 glib_file::glib_file(
     std::string&& label,
     std::vector<char>::size_type size
 ) :
-    label(label),
+    label(std::move(label)),
     size(size) {
 }
 
@@ -20,7 +20,7 @@ glib_file::glib_file() :
 }
 
 void glib_file::rename(std::string&& l) noexcept {
-    label = l;
+    label = std::move(l);
 }
 
 void glib_file::rename(const char* l) {
@@ -28,8 +28,8 @@ void glib_file::rename(const char* l) {
 }
 
 void glib_file::set_data(std::vector<char>&& d) {
-    data = d;
-    size = d.size();
+    data = std::move(d);
+    size = data.size();
 }
 
 const std::string& glib_file::get_label() const noexcept {

@@ -17,6 +17,20 @@ constexpr char** get_valid_argv() {
 }
 
 TEST_CASE("from_main", TAG) {
+    SECTION("does not store the path to script as an argument") {
+        const auto provider {
+            arg_provider::from_main(VALID_ARGV_SIZE, get_valid_argv())
+        };
+        REQUIRE(provider.size() == VALID_ARGV_SIZE - 1);
+    }
+
+    SECTION("stores the path to script separately") {
+        const auto provider {
+            arg_provider::from_main(VALID_ARGV_SIZE, get_valid_argv())
+        };
+        REQUIRE(provider.get_path_to_script() == VALID_ARGV[0]);
+    }
+
     SECTION("throws if too many arguments are given") {
         REQUIRE_THROWS_AS(
             arg_provider::from_main(MAX_ARGS + 1, get_valid_argv()),
@@ -37,9 +51,8 @@ TEST_CASE("get", TAG) {
         const auto provider {
             arg_provider::from_main(VALID_ARGV_SIZE, get_valid_argv())
         };
-        REQUIRE(provider.get(0) == VALID_ARGV[0]);
-        REQUIRE(provider.get(1) == VALID_ARGV[1]);
-        REQUIRE(provider.get(2) == VALID_ARGV[2]);
+        REQUIRE(provider.get(0) == VALID_ARGV[1]);
+        REQUIRE(provider.get(1) == VALID_ARGV[2]);
     }
     SECTION("throws if the requested parameter is out of bounds") {
         const auto provider {
