@@ -1,16 +1,15 @@
 #include <catch2/catch.hpp>
-#include <algorithm>
 
 #include "glib_file_validator.hxx"
 
 constexpr auto TAG { "glib_file" };
 
 TEST_CASE("initializes correctly", TAG) {
-    const glib_file f { "label", {'D', 'A', 'T', 'A' } };
+    const glib_file f { "label", { 'D', 'A', 'T', 'A' } };
     REQUIRE(f.get_label() == "label");
 
-    const auto data { f.get_data() };
-    std::string str(data.cbegin(), data.cend());
+    const auto& container { f.get_container() };
+    std::string str(container.cbegin(), container.cend());
 
     REQUIRE(str == "DATA");
 }
@@ -25,11 +24,11 @@ TEST_CASE("can be renamed", TAG) {
 }
 
 TEST_CASE("can be assigned new data", TAG) {
-    glib_file f { "label", {'D', 'A', 'T', 'A' } };
+    glib_file f { "label", { 'D', 'A', 'T', 'A' } };
 
-    f.set_data({ 'A', 'B', 'C' });
-    const auto data { f.get_data() };
-    std::string str(data.cbegin(), data.cend());
+    f.set_container({ 'A', 'B', 'C' });
+    const auto container { f.get_container() };
+    std::string str(container.cbegin(), container.cend());
     REQUIRE(str == "ABC");
 }
 
@@ -38,7 +37,7 @@ TEST_CASE("does not have data if the data container is empty", TAG) {
     REQUIRE(!f.has_data());
     glib_file ff { "label", std::vector<char> { 'D' } };
     REQUIRE(ff.has_data());
-    ff.set_data({});
+    ff.set_container({});
     REQUIRE(!ff.has_data());
 }
 
@@ -68,12 +67,12 @@ TEST_CASE("has zero size by default", TAG) {
 
 TEST_CASE("overwrites the size information if data is assigned", TAG) {
     glib_file f { "label", 16 };
-    f.set_data({ 'D', 'A', 'T', 'A' });
+    f.set_container({ 'D', 'A', 'T', 'A' });
     REQUIRE(f.get_size() == 4);
 }
 
 TEST_CASE("assigns the size from the data container if given", TAG) {
     glib_file f { "label", { 'D', 'A', 'T', 'A' } };
     REQUIRE(f.get_size() == 4);
-    REQUIRE(f.get_data().size() == 4);
+    REQUIRE(f.get_container().size() == 4);
 }

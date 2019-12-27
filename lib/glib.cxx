@@ -33,7 +33,7 @@ std::vector<glib_file> glib::read_files(std::istream& input, bool bare) {
             // OPTIMIZE: copy bytes into the output file
             std::vector<char> buffer(file_header.size);
             input.read(buffer.data(), file_header.size);
-            file.set_data(std::move(buffer));
+            file.set_container(std::move(buffer));
             // jump back to header to read next record
             input.seekg(offset);
         }
@@ -91,6 +91,6 @@ void glib::create(const std::vector<glib_file>& files, std::ostream& output) {
     }
 
     for (const auto& file: files) {
-        output.write(file.get_data().data(), file.get_size());
+        output.write(file.get_container().data(), file.get_size());
     }
 }

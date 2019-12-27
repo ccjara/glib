@@ -14,7 +14,7 @@ constexpr uint32_t len(const char* str) {
 TEST_CASE("returns no_label if the file has no label", TAG) {
     const glib_file_validator v;
     glib_file f;
-    f.set_data({ 'H', 'E', 'L', 'L', 'O' });
+    f.set_container({ 'H', 'E', 'L', 'L', 'O' });
     REQUIRE(v.validate(f) == res::no_label);
 }
 

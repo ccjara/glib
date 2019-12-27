@@ -3,10 +3,10 @@
 glib_file_validation_result glib_file_validator::validate(
     const glib_file &file
 ) {
-    const auto& data { file.get_data() };
-    if (data.empty()) {
+    const auto& container { file.get_container() };
+    if (container.empty()) {
         return glib_file_validation_result::no_data;
-    } else if (data.size() > MAX_RECORD_SIZE) {
+    } else if (container.size() > MAX_RECORD_SIZE) {
         return glib_file_validation_result::data_too_large;
     }
     const auto& label { file.get_label() };

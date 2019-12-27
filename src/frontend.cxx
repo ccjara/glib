@@ -105,8 +105,8 @@ void frontend::extract_files(const arg_provider& args) {
         if (!file_output_stream) {
             throw bad_stream_exception { };
         }
-        const auto& file_buffer { file.get_data() };
-        file_output_stream.write(file_buffer.data(), file_buffer.size());
+        const auto& data_container { file.get_container() };
+        file_output_stream.write(data_container.data(), data_container.size());
     }
 }
 
